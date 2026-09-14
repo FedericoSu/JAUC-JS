@@ -1,0 +1,25 @@
+{
+  "name": "jauc-js",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Laboratorio de refactorización con IA: tienda en TypeScript y Node.js",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev:back": "npm run dev --workspace backend",
+    "dev:front": "npm run dev --workspace frontend",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test --workspace backend",
+    "build": "npm run build --workspaces",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "22.20.2"
+  }
+}

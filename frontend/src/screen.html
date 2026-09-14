@@ -1,0 +1,44 @@
+<header class="topbar">
+  <a class="brand" href="/" aria-label="JAUC Store, inicio"><span class="brand-mark">J.</span><span>JAUC<span class="brand-light"> / store</span></span></a>
+  <span class="topbar-label">CONSOLA DE OPERACIONES</span>
+  <span class="demo-tag"><span></span> Entorno de demostración</span>
+</header>
+<main class="workspace">
+  <div class="page-heading"><div><p class="eyebrow">VENTAS / NUEVA OPERACIÓN</p><h1>Prepará el próximo pedido.</h1><p class="subtitle">Consultá el perfil del cliente, armá el carrito y revisá la cotización.</p></div><span class="workspace-tag">ARS · Argentina</span></div>
+  <form id="customer-form" class="customer-bar">
+    <label for="customer-id">Número de cliente</label>
+    <div class="customer-input"><span>#</span><input id="customer-id" name="customer" type="number" min="1" step="1" required value="151" /></div>
+    <button class="button button-dark" id="load-button" type="submit">Consultar cliente <span aria-hidden="true">↗</span></button>
+    <p>Casos sugeridos: <button type="button" class="preset" data-customer="151">151</button><button type="button" class="preset" data-customer="210">210</button><button type="button" class="preset" data-customer="999">999</button></p>
+    <span id="connection" class="connection" role="status">Conectando…</span>
+  </form>
+  <p id="error" class="error" role="alert" hidden></p>
+  <section id="profile" class="profile-grid" aria-label="Perfil del cliente" hidden>
+    <article class="metric"><span>Cliente seleccionado</span><strong id="customer-name"></strong><small>Cuenta de demostración</small></article>
+    <article class="metric"><span>Segmento comercial</span><strong id="segment" class="capitalize"></strong><small>Perfil de atención</small></article>
+    <article class="metric"><span>Riesgo del perfil</span><strong><span id="risk"></span><small> / 100</small></strong><small id="risk-label"></small></article>
+    <article class="metric"><span>Presupuesto sugerido</span><strong id="budget"></strong><small>Referencia para esta cuenta</small></article>
+  </section>
+  <div class="store-layout">
+    <section class="catalog panel" aria-labelledby="catalog-title">
+      <div class="panel-heading"><div><p class="eyebrow">01 / CATÁLOGO</p><h2 id="catalog-title">Productos disponibles <span id="product-count" class="count">0</span></h2></div><label class="sr-only" for="category">Filtrar categoría</label><select id="category"><option value="all">Todas las categorías</option><option value="tech">Tecnología</option><option value="office">Oficina</option><option value="home">Hogar</option></select></div>
+      <div class="table-heading" aria-hidden="true"><span>PRODUCTO</span><span>PRECIO UNITARIO</span><span>CANTIDAD</span></div>
+      <div id="products"><p class="empty">Cargando el catálogo…</p></div>
+      <div class="catalog-footer"><span id="selection-count">0 unidades en el carrito</span><span>Precios expresados en pesos argentinos</span></div>
+      <section id="notes" class="notes" aria-label="Observaciones del cliente" hidden><h3>Observaciones de la cuenta</h3><ul id="warnings"></ul></section>
+    </section>
+    <aside class="order panel" aria-labelledby="order-title">
+      <div class="panel-heading"><div><p class="eyebrow">02 / COTIZACIÓN</p><h2 id="order-title">Resumen del pedido</h2></div><span class="order-icon" aria-hidden="true">↗</span></div>
+      <div class="order-body">
+        <label for="coupon">Cupón de descuento</label><select id="coupon"><option value="">Sin cupón</option><option value="IA10" selected>IA10 — beneficio especial</option><option value="CLASE2">CLASE2 — campaña de clase</option></select>
+        <label for="zone">Zona de entrega</label><select id="zone"><option value="CABA">Ciudad de Buenos Aires</option><option value="GBA">Gran Buenos Aires</option><option value="INTERIOR">Interior del país</option><option value="OTRA">Otra zona</option></select>
+        <dl class="totals"><div><dt>Subtotal</dt><dd id="subtotal">$ 0</dd></div><div><dt>Descuento estimado</dt><dd id="discount" class="positive">$ 0</dd></div><div><dt>Envío estimado</dt><dd id="shipping">$ 0</dd></div><div><dt>Impuestos (21 %)</dt><dd id="taxes">$ 0</dd></div><div class="grand-total"><dt>Total estimado</dt><dd id="total">$ 0</dd></div></dl>
+        <p class="estimate-note">El importe final se consulta al cotizar.</p>
+        <button type="button" id="checkout-button" class="button button-primary" disabled>Cotizar pedido <span aria-hidden="true">→</span></button>
+        <p class="demo-note">Simulación: no se realizan cobros ni se reservan productos.</p>
+        <section id="result" class="result" aria-live="polite" hidden><p id="result-source" class="eyebrow"></p><strong id="result-total"></strong><p id="result-message"></p><ul id="result-warnings"></ul></section>
+      </div>
+    </aside>
+  </div>
+  <footer class="page-footer"><span><strong>JAUC-JS</strong> · Laboratorio de refactorización</span><span>Datos ficticios · v1.0</span></footer>
+</main>
