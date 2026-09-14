@@ -5,6 +5,7 @@
 | Necesitás | Detalle |
 | --- | --- |
 | Node.js con npm | Node **22.12 o superior**. Para una instalación nueva, usar una versión LTS compatible desde [nodejs.org](https://nodejs.org/en/download). |
+| Windows Terminal | Necesario para usar `iniciar.bat` en Windows; instalalo desde Microsoft Store. |
 | Navegador | Chrome, Edge o Firefox actualizado. |
 | Conexión a Internet | Para descargar las dependencias la primera vez. Después, la demo funciona localmente. |
 | Puertos disponibles | **4200** para el frontend y **5038** para el backend. |
@@ -16,12 +17,12 @@ El catálogo vive en memoria y se reinicia con el backend. El proyecto simula co
 
 Hacé doble clic en **[iniciar.bat](iniciar.bat)**.
 
-1. Verifica Node.js y npm.
+1. Verifica Windows Terminal, Node.js y npm.
 2. Si faltan las dependencias, ejecuta `npm ci` en la raíz.
-3. Abre dos terminales con sus propios logs: backend y frontend.
-4. Cuando ambas estén listas, abrí **http://127.0.0.1:4200**.
+3. Abre una ventana de Windows Terminal con dos pestañas, cada una con sus propios logs: backend y frontend.
+4. Cuando ambos servicios estén listos, abrí **http://127.0.0.1:4200**.
 
-Para detenerlo, presioná **Ctrl+C en cada terminal** y cerrá las ventanas. El primer inicio puede tardar mientras npm descarga paquetes. Si falla, el lanzador deja visible el error.
+Para detenerlo, presioná **Ctrl+C en cada pestaña** y cerrá las pestañas. El primer inicio puede tardar mientras npm descarga paquetes. Si falla, el lanzador deja visible el error.
 
 El archivo funciona aunque lo ejecutes desde otra carpeta y admite rutas con espacios. Cuando cambie `package-lock.json`, ejecutá `npm ci` nuevamente.
 
@@ -65,9 +66,7 @@ O todo junto:
 npm run check
 ```
 
-La base incluye **29 pruebas** del servicio y de los endpoints HTTP. Los tests HTTP usan un puerto libre temporal y no requieren levantar los servidores.
-
-Los tests llamados **LEGACY** describen comportamientos actuales, incluidos errores deliberados. Que pasen significa que el comportamiento se conserva; no certifica que esas reglas sean correctas. Al corregir un bug, cambiá explícitamente su expectativa y conservá la cobertura del resto.
+Esta rama se entrega sin tests para que los estudiantes los creen durante el ejercicio. `npm test` queda preparado para ejecutar archivos `backend/test/*.test.ts`; por ahora no hay pruebas para ejecutar. Que `npm run check` termine correctamente verifica los tipos y la compilación, pero todavía no valida el comportamiento con tests.
 
 ### Probar lo compilado
 
@@ -89,6 +88,6 @@ El `tsconfig.json` de la raíz contiene opciones compartidas con `strict: true`.
 
 - Backend: `NodeNext`, módulos de Node, tipos de Node y compilación de producción separada.
 - Frontend: `Bundler`, tipos del DOM y Vite, sin emitir JavaScript desde TypeScript.
-- Los tests se verifican, pero quedan fuera del backend compilado.
+- Cuando se agreguen tests en `backend/test`, se incluirán en la verificación de tipos y quedarán fuera del backend compilado.
 
 Usá `npm run typecheck` desde la raíz. La raíz sola es una configuración base, no una aplicación. Las versiones directas están fijadas y `package-lock.json` fija el árbol de dependencias. Se eligió TypeScript 5.9.3 para este material.
