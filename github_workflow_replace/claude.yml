@@ -1,0 +1,64 @@
+name: Claude Code
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # Installs the Claude Code CLI ourselves via npm instead of letting the
+      # action's built-in native installer do it. Works around
+      # https://github.com/anthropics/claude-code-action/issues/1290 and
+      # related reports, where that installer sometimes reports success
+      # without actually placing the binary at ~/.local/bin/claude.
+      - name: Install Claude Code CLI
+        id: install_claude
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          echo "claude_path=$(which claude)" >> "$GITHUB_OUTPUT"
+
+      - name: Run Claude Code
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          # Skips the action's own (currently flaky) auto-installer and uses
+          # the CLI we just installed above.
+          path_to_claude_code_executable: ${{ steps.install_claude.outputs.claude_path }}
+
+          # This is an optional setting that allows Claude to read CI results on PRs
+          additional_permissions: |
+            actions: read
+
+          # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
+          # prompt: 'Update the pull request description to include a summary of changes.'
+
+          # Optional: Add claude_args to customize behavior and configuration
+          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
+          # or https://code.claude.com/docs/en/cli-reference for available options
+          # claude_args: '--allowed-tools Bash(gh pr *)'
